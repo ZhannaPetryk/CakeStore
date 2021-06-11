@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Apple_pie.jpg" />
+    <None Remove="Images\Ciasto_czekoladowo_migdałowe_z_gruszkami.jpg" />
+    <None Remove="Images\favicon.png" />
+    <None Remove="Images\Fraisier.jpg" />
+    <None Remove="Images\Kokosowy_sernik_królewski.jpg" />
+    <None Remove="Images\Tarta_z_mascarpone_rabarbarem_i_truskawkami.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoreTestWPF.ViewModel\StoreTestWPF.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Apple_pie.jpg" />
+    <Resource Include="Images\Ciasto_czekoladowo_migdałowe_z_gruszkami.jpg" />
+    <Resource Include="Images\favicon.png" />
+    <Resource Include="Images\Fraisier.jpg" />
+    <Resource Include="Images\Kokosowy_sernik_królewski.jpg" />
+    <Resource Include="Images\Tarta_z_mascarpone_rabarbarem_i_truskawkami.jpg" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Page Include="App.xaml" />
+	</ItemGroup>
+	
+	  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+	
+</Project>
