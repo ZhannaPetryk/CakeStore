@@ -2,6 +2,7 @@
 using StoreTestWPF.ViewModel.Interfaces;
 using StoreTestWPF.ViewModel.ViewModels;
 using System;
+using System.Windows;
 
 namespace StoreTestWPF.Presentation.Services
 {
@@ -14,24 +15,33 @@ namespace StoreTestWPF.Presentation.Services
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
-            else return "";
+            else return string.Empty;
         }
 
-        public bool? ShowWindow(object viewModel)
+        public bool ShowWindow(ViewModelBase viewModel)
         {
+            Window view = null;
             switch (viewModel)
             {
                 case StoreViewModel storeViewModel:
-                    return new MainWindow { DataContext = storeViewModel }.ShowDialog();
+                    view = new MainWindow { DataContext = storeViewModel };
+                    break;
                 case ModifyCakeViewModel modifyCakeViewModel:
-                    return new ModifyCakeWindow { DataContext = modifyCakeViewModel }.ShowDialog();
+                    view = new ModifyCakeWindow { DataContext = modifyCakeViewModel };
+                    break;
+                    
             }
-            return null;
+            return view?.ShowDialog() ?? false;
         }
 
-        public bool? ShowConfirmationMessage(string messageText)
+        public bool ShowConfirmationMessage(string messageText)
         {
-            return new MessageBoxCustom(messageText, MessageType.Confirmation, MessageButtons.YesNo).ShowDialog();
+            return string.IsNullOrWhiteSpace(messageText) ? false : new MessageBoxCustom(messageText, MessageType.Confirmation, MessageButtons.YesNo).ShowDialog() ?? false;
+        }
+
+        public bool ShowErrorMessage(string messageText)
+        {
+            return string.IsNullOrWhiteSpace(messageText) ? false : new MessageBoxCustom(messageText, MessageType.Error, MessageButtons.Ok).ShowDialog() ?? false;
         }
     }
 }

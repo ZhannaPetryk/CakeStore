@@ -1,4 +1,5 @@
-﻿using StoreTestWPF.Presentation.Services;
+﻿using StoreTestWPF.DAL;
+using StoreTestWPF.Presentation.Services;
 using StoreTestWPF.ViewModel.ViewModels;
 using System.Windows;
 
@@ -12,8 +13,9 @@ namespace StoreTestWPF.Presentation
         public MainWindow()
         {
             InitializeComponent();
+            CakeStoreDbContext dbContext = new CakeStoreDbContext();
             ViewService viewService = new ViewService();
-            DataContext = new StoreViewModel(viewService);
+            this.DataContext = new StoreViewModel(dbContext, viewService);
         }
     }
 }

@@ -8,7 +8,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         d:DataContext="{d:DesignInstance viewModels:ModifyCakeViewModel}"
         mc:Ignorable="d"
-        Icon="../Images/favicon.png"
+        Icon="../Resource/Images/favicon.png"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -16,7 +16,7 @@
         TextOptions.TextRenderingMode="Auto"   
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="{Binding WindowName}" 
+        Title="{Binding Path = Title}" 
         Height="650" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,23 +28,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel DataContext="{Binding ModifiedCake}" 
+        <StackPanel DataContext="{Binding Path = ModifiedCake}" 
                     Grid.ColumnSpan="3"
                     Margin="5">
             <TextBlock Text="Manufacture:" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}" 
                        Margin="5"/>
-            <TextBox Text="{Binding Manufacture, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Text="{Binding Path = Manufacture, UpdateSourceTrigger=PropertyChanged}" 
                      Margin="5"/>
             <TextBlock Text="Title:" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}" 
                        Margin="5"/>
-            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" 
+            <TextBox Text="{Binding Path = Title, UpdateSourceTrigger=PropertyChanged}" 
                      Margin="5"/>
             <TextBlock Text="Description:" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}" 
                        Margin="5"/>
-            <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding Path = Description, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
                      VerticalScrollBarVisibility="Visible"
@@ -52,7 +52,7 @@
             <TextBlock Text="Price:" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                        Margin="5"/>
-            <TextBox Text="{Binding PriceInCents, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
+            <TextBox Text="{Binding Path = Price, UpdateSourceTrigger=PropertyChanged}" 
                      Margin="5"/>
             <TextBlock Text="Image:" 
                        Width="Auto"
@@ -66,10 +66,11 @@
                 Background="Blue"
                 BorderBrush="Blue"/>
             <Image 
-                Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
-                   MaxWidth="100" MaxHeight="100"
-                   HorizontalAlignment="Left"
-                   Margin="5"/>
+                Source="{Binding Path = ImagePath, UpdateSourceTrigger=PropertyChanged}"
+                MaxWidth="100" 
+                MaxHeight="100"
+                HorizontalAlignment="Left"
+                Margin="5"/>
         </StackPanel>
         <Button 
             Name="btnAccept" 
@@ -79,10 +80,11 @@
             Grid.Row="1"
             Margin="10" 
             Padding="20,0"
-            VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Stretch"
             Background="Green"
             BorderBrush="Green" 
-            Command="{Binding AcceptCommand}"
+            Command="{Binding Path = AcceptCommand}"
             Click="btnAccept_Click"
             />
 
@@ -94,7 +96,8 @@
             Grid.Row="1"
             Margin="10" 
             Padding="20,0"
-            VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Stretch"
             Background="Red"
             BorderBrush="Red" 
             Click="btnCancel_Click"/>

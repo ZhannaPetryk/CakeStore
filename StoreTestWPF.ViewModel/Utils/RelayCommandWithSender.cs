@@ -20,10 +20,7 @@ namespace StoreTestWPF.ViewModel.Utils
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return this.canExecute == null || this.canExecute(parameter as T);
-        }
+        public bool CanExecute(object parameter) => this.canExecute == null || this.canExecute(parameter as T);
 
         public void Execute(object parameter)
         {

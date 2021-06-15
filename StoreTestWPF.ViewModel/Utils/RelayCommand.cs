@@ -20,10 +20,7 @@ namespace StoreTestWPF.ViewModel.Utils
             this.canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return this.canExecute == null || this.canExecute();
-        }
+        public bool CanExecute(object parameter) => this.canExecute == null || this.canExecute();
 
         public void Execute(object parameter)
         {

@@ -1,4 +1,5 @@
 ﻿using StoreTestWPF.DAL.Models;
+using System;
 
 namespace StoreTestWPF.ViewModel.ViewModels
 {
@@ -6,20 +7,31 @@ namespace StoreTestWPF.ViewModel.ViewModels
     {
         private Cake cake;
 
+        public CakeViewModel()
+        {
+        }
+
         public CakeViewModel(Cake cake)
         {
+            if (cake == null)
+            {
+                throw new NullReferenceException();
+            }
             this.cake = cake;
         }
 
-        public Cake Cake { get { return this.cake; }}
+        public Cake Cake => this.cake;
 
         public string Title
         {
             get { return this.cake.Title; }
             set
             {
-                this.cake.Title = value;
-                OnPropertyChanged(nameof(this.Title));
+                if(this.cake.Title != value)
+                {
+                    this.cake.Title = value;
+                    this.OnPropertyChanged(nameof(this.Title));
+                }
             }
         }
 
@@ -28,8 +40,11 @@ namespace StoreTestWPF.ViewModel.ViewModels
             get { return this.cake.Manufacture; }
             set
             {
-                this.cake.Manufacture = value;
-                OnPropertyChanged(nameof(this.Manufacture));
+                if (this.cake.Manufacture != value)
+                {
+                    this.cake.Manufacture = value;
+                    this.OnPropertyChanged(nameof(this.Manufacture));
+                }
             }
         }
 
@@ -38,18 +53,24 @@ namespace StoreTestWPF.ViewModel.ViewModels
             get { return this.cake.Description; }
             set
             {
-                this.cake.Description = value;
-                OnPropertyChanged(nameof(this.Description));
+                if (this.cake.Description != value)
+                {
+                    this.cake.Description = value;
+                    this.OnPropertyChanged(nameof(this.Description));
+                }
             }
         }
 
-        public int PriceInCents
+        public decimal Price
         {
-            get { return this.cake.PriceInCents; }
+            get { return this.cake.Price; }
             set
             {
-                this.cake.PriceInCents = value;
-                OnPropertyChanged(nameof(this.PriceInCents));
+                if (this.cake.Price != value)
+                {
+                    this.cake.Price = value;
+                    this.OnPropertyChanged(nameof(this.Price));
+                }
             }
         }
 
@@ -58,8 +79,11 @@ namespace StoreTestWPF.ViewModel.ViewModels
             get { return this.cake.ImagePath; }
             set
             {
-                this.cake.ImagePath = value;
-                OnPropertyChanged(nameof(this.ImagePath));
+                if (this.cake.ImagePath != value)
+                {
+                    this.cake.ImagePath = value;
+                    this.OnPropertyChanged(nameof(this.ImagePath));
+                }
             }
         }
     }

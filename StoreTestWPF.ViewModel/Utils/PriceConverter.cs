@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Data;
 
 namespace StoreTestWPF.ViewModel.Utils
@@ -8,15 +7,21 @@ namespace StoreTestWPF.ViewModel.Utils
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            decimal amount = System.Convert.ToInt32(value) / 100M;
-            return string.Format("{0:C}", amount);
+            if (value is decimal)
+            { 
+                return string.Format("{0:C}", value); 
+            }
+            else throw new Exception("The input must be decimal");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string number = new string(value.ToString().Where(char.IsDigit).TakeLast(9).ToArray());
-
-            return System.Convert.ToInt32(number);
+            decimal result;
+            if (Decimal.TryParse(value.ToString(), out result))
+            {
+                return result;
+            }
+            else throw new Exception("The input must be convertable to decimal");
         }
     }
 }

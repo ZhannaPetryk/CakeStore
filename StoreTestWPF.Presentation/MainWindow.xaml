@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:StoreTestWPF.Presentation"
+        xmlns:userControls="clr-namespace:StoreTestWPF.Presentation.Controls"
         xmlns:viewModels="clr-namespace:StoreTestWPF.ViewModel.ViewModels;assembly=StoreTestWPF.ViewModel"
         d:DataContext="{d:DesignInstance viewModels:StoreViewModel}"
         mc:Ignorable="d"
@@ -16,7 +17,7 @@
         TextOptions.TextRenderingMode="Auto"   
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Icon="Images/favicon.png">
+        Icon="Resource/Images/favicon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="420"/>
@@ -37,9 +38,9 @@
             Name="btnEdit" 
             Content="{materialDesign:PackIcon PencilOutline}"
             ToolTip="Edit"
-            Command="{Binding EditCommand}"
+            Command="{Binding Path = EditCommand}"
             CommandParameter="{Binding Path = SelectedCake}"
-            Visibility="{Binding Path=IsCakeSelected, Converter={StaticResource BoolToVis}}"
+            Visibility="{Binding Path = IsCakeSelected, Converter={StaticResource BoolToVis}}"
             Grid.Column="1"
             Margin="5" 
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
@@ -50,9 +51,9 @@
             Name="btnDelete" 
             Content="{materialDesign:PackIcon TrashCanOutline}"
             ToolTip="Delete"
-            Command="{Binding DeleteCommand}"
+            Command="{Binding Path = DeleteCommand}"
             CommandParameter="{Binding Path = SelectedCake}"
-            Visibility="{Binding Path=IsCakeSelected, Converter={StaticResource BoolToVis}}"
+            Visibility="{Binding Path = IsCakeSelected, Converter={StaticResource BoolToVis}}"
             Grid.Column="2"
             Margin="5" 
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
@@ -63,7 +64,7 @@
             Name="btnAdd" 
             Content="{materialDesign:PackIcon PlusThick}"
             ToolTip="Add new"
-            Command="{Binding AddCommand}"
+            Command="{Binding Path = AddCommand}"
             Grid.Column="5"
             Margin="5" 
             VerticalAlignment="Center" 
@@ -75,14 +76,14 @@
             Name="btnLoad" 
             Content="{materialDesign:PackIcon TrayArrowDown}"
             ToolTip="Load"
-            Command="{Binding LoadCommand}"
+            Command="{Binding Path = LoadCommand}"
             Grid.Column="6" 
             Margin="5" 
             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
         <ListBox Grid.Row="1" Grid.RowSpan="3"
-                 ItemsSource="{Binding Cakes}"
-                 SelectedItem="{Binding SelectedCake}"
+                 ItemsSource="{Binding Path = Cakes}"
+                 SelectedItem="{Binding Path = SelectedCake}"
                  Margin="5">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -91,30 +92,18 @@
             </ListBox.ItemsPanel>
         </ListBox>
 
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" DataContext="{Binding SelectedCake}" Margin="5">
-            <TextBlock Text="Manufacture:" 
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}" 
-                       Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsCakeSelected, Converter={StaticResource BoolToVis}}"/>
-            <TextBlock Text="{Binding Manufacture, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0,0,0,5"/>
-            <TextBlock Text="Title:" 
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsCakeSelected, Converter={StaticResource BoolToVis}}"/>
-            <TextBlock Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0,0,0,5"/>
-            <TextBlock Text="Description:" 
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsCakeSelected, Converter={StaticResource BoolToVis}}"/>
-            <TextBlock Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                         TextWrapping="Wrap" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="0,0,0,5"/>
-            <TextBlock Text="Price:" 
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.IsCakeSelected, Converter={StaticResource BoolToVis}}"/>
-            <TextBlock Text="{Binding PriceInCents, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
-                       Style="{StaticResource MaterialDesignBody2TextBlock}" 
-                       Margin="0,0,0,5"/>
-        </StackPanel>
-        <Image DataContext="{Binding SelectedCake}"
-               Source="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}" 
-               Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="1"
+        <userControls:CakeDetails
+            SelectedCake="{Binding Path = SelectedCake}"
+            IsCakeSelected="{Binding Path = IsCakeSelected}"
+            Grid.Column="1" 
+            Grid.ColumnSpan="3" 
+            Grid.Row="1"/>
+        
+        <Image DataContext="{Binding Path = SelectedCake}"
+               Source="{Binding Path = ImagePath, UpdateSourceTrigger=PropertyChanged}" 
+               Grid.Column="4" 
+               Grid.ColumnSpan="3" 
+               Grid.Row="1"
                HorizontalAlignment="Right" VerticalAlignment="Top" 
                StretchDirection="Both" 
                MinHeight="210"
