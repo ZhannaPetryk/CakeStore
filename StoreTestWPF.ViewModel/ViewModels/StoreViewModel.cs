@@ -64,10 +64,10 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public ICommand DeleteCommand => this.deleteCommand ?? new RelayCommandWithParameter<CakeViewModel>(DeleteExecuted, DeleteCanExecute);
 
-        public StoreViewModel(IContextFactory<CakeStoreDbContext> factory, IViewService viewService)
+        public StoreViewModel(IViewService viewService)
         {
             this.Cakes = new ObservableCollection<CakeViewModel>();
-            this.dbContext = factory.Create();
+            this.dbContext = ContextFactory.Create();
             this.viewService = viewService;
         }
 

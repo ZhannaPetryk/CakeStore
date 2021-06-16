@@ -1,8 +1,8 @@
 ﻿namespace StoreTestWPF.DAL
 {
-    public class ContextFactory : IContextFactory<CakeStoreDbContext>
+    public static class ContextFactory
     {
-        public CakeStoreDbContext Create()
+        public static CakeStoreDbContext Create()
         {
             return new CakeStoreDbContext();
         }
