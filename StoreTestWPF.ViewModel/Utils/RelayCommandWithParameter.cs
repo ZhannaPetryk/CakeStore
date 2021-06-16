@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace StoreTestWPF.ViewModel.Utils
 {
-    public class RelayCommandWithSender<T> : ICommand where T : class
+    public class RelayCommandWithParameter<T> : ICommand where T : class
     {
         private Action<T> execute;
         private Func<T, bool> canExecute;
 
-        public RelayCommandWithSender(Action<T> execute, Func<T, bool> canExecute = null)
+        public RelayCommandWithParameter(Action<T> execute, Func<T, bool> canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;

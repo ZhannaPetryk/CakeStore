@@ -23,15 +23,19 @@ namespace StoreTestWPF.Presentation.Services
             Window view = null;
             switch (viewModel)
             {
-                case StoreViewModel storeViewModel:
-                    view = new MainWindow { DataContext = storeViewModel };
+                case StoreViewModel _:
+                    view = new MainWindow();
                     break;
-                case ModifyCakeViewModel modifyCakeViewModel:
-                    view = new ModifyCakeWindow { DataContext = modifyCakeViewModel };
+                case ModifyCakeViewModel _:
+                    view = new ModifyCakeWindow();
                     break;
-                    
             }
-            return view?.ShowDialog() ?? false;
+            if (view == null)
+            { 
+                return false; 
+            }
+            view.DataContext = viewModel;
+            return view.ShowDialog() ?? false;
         }
 
         public bool ShowConfirmationMessage(string messageText)

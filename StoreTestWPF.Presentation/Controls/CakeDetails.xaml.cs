@@ -25,7 +25,7 @@ namespace StoreTestWPF.Presentation.Controls
             nameof(IsCakeSelected),
             typeof(bool),
             typeof(CakeDetails),
-           new FrameworkPropertyMetadata(new bool()));
+            new FrameworkPropertyMetadata(new bool()));
 
     public CakeViewModel SelectedCake
         {
@@ -38,6 +38,6 @@ namespace StoreTestWPF.Presentation.Controls
             nameof(SelectedCake),
             typeof(CakeViewModel),
             typeof(CakeDetails),
-           new FrameworkPropertyMetadata(new CakeViewModel(new Cake())));
+            new FrameworkPropertyMetadata(new CakeViewModel(new Cake())));
     }
 }

@@ -13,9 +13,9 @@ namespace StoreTestWPF.Presentation
         public MainWindow()
         {
             InitializeComponent();
-            CakeStoreDbContext dbContext = new CakeStoreDbContext();
+            IContextFactory<CakeStoreDbContext> factory = new ContextFactory();
             ViewService viewService = new ViewService();
-            this.DataContext = new StoreViewModel(dbContext, viewService);
+            this.DataContext = new StoreViewModel(factory, viewService);
         }
     }
 }
