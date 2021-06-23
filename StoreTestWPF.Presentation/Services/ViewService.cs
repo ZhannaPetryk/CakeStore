@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using StoreTestWPF.ViewModel.Enums;
 using StoreTestWPF.ViewModel.Interfaces;
 using StoreTestWPF.ViewModel.ViewModels;
 using System;
@@ -8,6 +9,8 @@ namespace StoreTestWPF.Presentation.Services
 {
     public sealed class ViewService : IViewService
     {
+        private Window view;
+
         public string OpenFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -20,32 +23,52 @@ namespace StoreTestWPF.Presentation.Services
 
         public bool ShowWindow(ViewModelBase viewModel)
         {
-            Window view = null;
             switch (viewModel)
             {
                 case StoreViewModel _:
-                    view = new MainWindow();
+                    this.view = new MainWindow();
                     break;
                 case ModifyCakeViewModel _:
-                    view = new ModifyCakeWindow();
+                    this.view = new ModifyCakeWindow();
+                    break;
+                case MessageBoxCustomViewModel _:
+                    this.view = new MessageBoxCustomWindow();
                     break;
             }
-            if (view == null)
+            if (this.view == null)
             { 
                 return false; 
             }
-            view.DataContext = viewModel;
-            return view.ShowDialog() ?? false;
+            this.view.DataContext = viewModel;
+            return this.view.ShowDialog() ?? false;
+        }
+
+        public void Accept()
+        {
+            if (this.view != null)
+            {
+                this.view.DialogResult = true;
+                this.view = null;
+            }
+        }
+
+        public void Cancel()
+        {
+            if (this.view != null)
+            {
+                this.view.DialogResult = false;
+                this.view = null;
+            }
         }
 
         public bool ShowConfirmationMessage(string messageText)
         {
-            return string.IsNullOrWhiteSpace(messageText) ? false : new MessageBoxCustom(messageText, MessageType.Confirmation, MessageButtons.YesNo).ShowDialog() ?? false;
+            return string.IsNullOrWhiteSpace(messageText) ? false : ShowWindow(new MessageBoxCustomViewModel(messageText, MessageType.Confirmation, MessageButtons.YesNo, this)); 
         }
 
         public bool ShowErrorMessage(string messageText)
         {
-            return string.IsNullOrWhiteSpace(messageText) ? false : new MessageBoxCustom(messageText, MessageType.Error, MessageButtons.Ok).ShowDialog() ?? false;
+            return string.IsNullOrWhiteSpace(messageText) ? false : ShowWindow(new MessageBoxCustomViewModel(messageText, MessageType.Error, MessageButtons.Ok, this));
         }
     }
 }

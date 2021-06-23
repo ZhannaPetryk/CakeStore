@@ -9,17 +9,6 @@
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <DataTemplate DataType="{x:Type viewModels:CakeViewModel}">
         <materialDesign:Card>
-            <!--<StackPanel Margin="2">
-                <Image Source="{Binding Path = ImagePath}" 
-                       Width="170" 
-                       Height="200" 
-                       Stretch="UniformToFill"/>
-                <TextBlock 
-                    FontSize="18" 
-                    Height="44" 
-                    Text="{Binding Path=Title}" />
-                <TextBlock Text="{Binding Path=Price, Converter={StaticResource PriceConverter}}" />
-            </StackPanel>-->
             <userControls:CakePreview
                 Cake ="{Binding}"/>
         </materialDesign:Card>

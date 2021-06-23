@@ -10,6 +10,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
     {
         private CakeViewModel modifiedCake;
         private ICommand acceptCommand;
+        private ICommand cancelCommand;
         private ICommand openFileCommand;
         private IViewService viewService;
 
@@ -41,12 +42,22 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public ICommand AcceptCommand => this.acceptCommand ?? new RelayCommand(this.AcceptExecuted, this.AcceptCanExecute);
 
-        private void AcceptExecuted() { }
+        public ICommand CancelCommand => this.cancelCommand ?? new RelayCommand(this.CancelExecuted);
+
+        private void AcceptExecuted()
+        {
+            this.viewService.Accept();
+        }
 
         private bool AcceptCanExecute() => !(string.IsNullOrWhiteSpace(this.ModifiedCake?.Manufacture)
             || string.IsNullOrWhiteSpace(this.ModifiedCake?.Title)
             || this.ModifiedCake?.Price == decimal.Zero
             || string.IsNullOrWhiteSpace(this.ModifiedCake?.ImagePath));
+
+        private void CancelExecuted()
+        {
+            this.viewService.Cancel();
+        }
 
         private void OpenFileExecuted()
         {

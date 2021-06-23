@@ -3,11 +3,11 @@
 namespace StoreTestWPF.Presentation
 {
     /// <summary>
-    /// Interaction logic for ModifyCakeWindow.xaml
+    /// Interaction logic for MessageBoxCustomWindow.xaml
     /// </summary>
-    public partial class ModifyCakeWindow : Window
+    public partial class MessageBoxCustomWindow : Window
     {
-        public ModifyCakeWindow()
+        public MessageBoxCustomWindow()
         {
             InitializeComponent();
         }

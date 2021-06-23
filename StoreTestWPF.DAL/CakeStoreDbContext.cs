@@ -11,5 +11,10 @@ namespace StoreTestWPF.DAL
         {
             Database.SetInitializer(new CakeDBInitializer());
         }
+
+        public static CakeStoreDbContext Create()
+        {
+            return new CakeStoreDbContext();
+        }
     }
 }

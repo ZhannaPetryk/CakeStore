@@ -8,5 +8,7 @@ namespace StoreTestWPF.ViewModel.Interfaces
         bool ShowWindow(ViewModelBase viewModel);
         bool ShowConfirmationMessage(string messageText);
         bool ShowErrorMessage(string messageText);
+        void Accept();
+        void Cancel();
     }
 }

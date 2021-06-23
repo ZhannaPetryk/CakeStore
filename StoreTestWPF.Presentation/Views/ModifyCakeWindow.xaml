@@ -84,9 +84,7 @@
             HorizontalAlignment="Stretch"
             Background="Green"
             BorderBrush="Green" 
-            Command="{Binding Path = AcceptCommand}"
-            Click="btnAccept_Click"
-            />
+            Command="{Binding Path = AcceptCommand}"/>
 
         <Button 
             Name="btnCancel" 
@@ -100,7 +98,7 @@
             HorizontalAlignment="Stretch"
             Background="Red"
             BorderBrush="Red" 
-            Click="btnCancel_Click"/>
+            Command="{Binding Path = CancelCommand}"/>
     </Grid>
 </Window>
 

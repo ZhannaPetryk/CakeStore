@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreTestWPF.DAL.Models
 {
-    public class Cake
+    public class Cake: ICloneable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,5 +19,10 @@ namespace StoreTestWPF.DAL.Models
         public decimal Price { get; set; }
         
         public string ImagePath { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

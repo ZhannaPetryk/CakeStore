@@ -67,7 +67,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
         public StoreViewModel(IViewService viewService)
         {
             this.Cakes = new ObservableCollection<CakeViewModel>();
-            this.dbContext = ContextFactory.Create();
+            this.dbContext = CakeStoreDbContext.Create();
             this.viewService = viewService;
         }
 
@@ -101,6 +101,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
         {
             try
             {
+                var unmodifiedCake = new CakeViewModel(this.SelectedCake.Cake.Clone() as Cake);
                 var modifyViewModel = new ModifyCakeViewModel(this.viewService);
                 modifyViewModel.ModifiedCake = cake;
 
@@ -109,6 +110,8 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
                 if (!this.viewService.ShowWindow(modifyViewModel))
                 {
+                    this.Cakes[this.Cakes.IndexOf(cake)] = unmodifiedCake;
+                    this.SelectedCake = unmodifiedCake;
                     return;
                 }
 
