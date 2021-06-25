@@ -16,6 +16,7 @@ namespace StoreTestWPF.Presentation.Services
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+           
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
             else return string.Empty;
@@ -45,30 +46,36 @@ namespace StoreTestWPF.Presentation.Services
 
         public void Accept()
         {
-            if (this.view != null)
+            if (this.view == null)
             {
-                this.view.DialogResult = true;
-                this.view = null;
+                return;
             }
+            this.view.DialogResult = true;
+            this.view = null;
         }
 
         public void Cancel()
         {
-            if (this.view != null)
+            if (this.view == null)
             {
-                this.view.DialogResult = false;
-                this.view = null;
+                return;
             }
+            this.view.DialogResult = false;
+            this.view = null;
         }
 
-        public bool ShowConfirmationMessage(string messageText)
+        public bool ShowMessage(string message)
         {
-            return string.IsNullOrWhiteSpace(messageText) ? false : ShowWindow(new MessageBoxCustomViewModel(messageText, MessageType.Confirmation, MessageButtons.YesNo, this)); 
+            return string.IsNullOrWhiteSpace(message) 
+                ? false 
+                : this.ShowWindow(new MessageBoxCustomViewModel(message, MessageType.Confirmation, MessageButtons.YesNo, this)); 
         }
 
-        public bool ShowErrorMessage(string messageText)
+        public bool ShowMessage(Exception exception)
         {
-            return string.IsNullOrWhiteSpace(messageText) ? false : ShowWindow(new MessageBoxCustomViewModel(messageText, MessageType.Error, MessageButtons.Ok, this));
+            return exception == null 
+                ? false 
+                : this.ShowWindow(new MessageBoxCustomViewModel(exception.Message, MessageType.Error, MessageButtons.Ok, this));
         }
     }
 }

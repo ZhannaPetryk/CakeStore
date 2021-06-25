@@ -9,8 +9,7 @@
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
     <DataTemplate DataType="{x:Type viewModels:CakeViewModel}">
         <materialDesign:Card>
-            <userControls:CakePreview
-                Cake ="{Binding}"/>
+            <userControls:CakePreviewControl/>
         </materialDesign:Card>
     </DataTemplate>
     <DataTemplate DataType="{x:Type viewModels:StoreViewModel}">

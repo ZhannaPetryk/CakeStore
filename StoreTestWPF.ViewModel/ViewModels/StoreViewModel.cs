@@ -14,61 +14,48 @@ namespace StoreTestWPF.ViewModel.ViewModels
     public sealed class StoreViewModel : ViewModelBase
     {
         private CakeViewModel selectedCake;
-        private bool isCakeSelected;
         private ICommand loadCommand;
         private ICommand addCommand;
         private ICommand editCommand;
         private ICommand deleteCommand;
-        private IViewService viewService;
-        private CakeStoreDbContext dbContext;
+        private readonly IViewService viewService;
+        private readonly CakeStoreDbContext dbContext;
 
         public ObservableCollection<CakeViewModel> Cakes { get; private set; }
 
         public CakeViewModel SelectedCake
         {
-            get { return this.selectedCake; }
+            get => this.selectedCake;
             set
             {
                 if (this.selectedCake != value)
                 {
                     this.selectedCake = value;
                     this.OnPropertyChanged(nameof(this.SelectedCake));
-
-                    this.isCakeSelected = !(value == null);
                     this.OnPropertyChanged(nameof(this.IsCakeSelected));
                 }
             }
         }
 
-        public bool IsCakeSelected
-        {
-            get
-            {
-                return isCakeSelected;
-            }
-            set
-            {
-                if (this.isCakeSelected != value)
-                {
-                    this.isCakeSelected = value;
-                    this.OnPropertyChanged(nameof(this.IsCakeSelected));
-                }
-            }
-        }
+        public bool IsCakeSelected => this.SelectedCake != null;
 
-        public ICommand LoadCommand => this.loadCommand ?? new RelayCommand(LoadExecuted, LoadCanExecute);
+        public ICommand LoadCommand => this.loadCommand ?? new RelayCommand(this.LoadExecuted, this.LoadCanExecute);
 
-        public ICommand AddCommand => this.addCommand ?? new RelayCommand(AddExecuted);
+        public ICommand AddCommand => this.addCommand ?? new RelayCommand(this.AddExecuted);
 
-        public ICommand EditCommand => this.editCommand ?? new RelayCommandWithParameter<CakeViewModel>(EditExecuted, EditCanExecute);
+        public ICommand EditCommand => this.editCommand ?? new RelayCommandWithParameter<CakeViewModel>(this.EditExecuted, this.EditCanExecute);
 
-        public ICommand DeleteCommand => this.deleteCommand ?? new RelayCommandWithParameter<CakeViewModel>(DeleteExecuted, DeleteCanExecute);
+        public ICommand DeleteCommand => this.deleteCommand ?? new RelayCommandWithParameter<CakeViewModel>(this.DeleteExecuted, this.DeleteCanExecute);
 
         public StoreViewModel(IViewService viewService)
         {
+            if (viewService == null)
+            {
+                throw new ArgumentNullException(nameof(viewService));
+            }
+            this.viewService = viewService;
             this.Cakes = new ObservableCollection<CakeViewModel>();
             this.dbContext = CakeStoreDbContext.Create();
-            this.viewService = viewService;
         }
 
         private void AddExecuted()
@@ -85,16 +72,15 @@ namespace StoreTestWPF.ViewModel.ViewModels
                     return;
                 }
                 this.SelectedCake = modifyViewModel.ModifiedCake;
-                this.dbContext.Cakes.Add(SelectedCake.Cake);
+                this.dbContext.Cakes.Add(this.SelectedCake.Cake);
                 this.dbContext.SaveChanges();
 
-                this.Cakes.Add(SelectedCake);
+                this.Cakes.Add(this.SelectedCake);
             }
             catch (Exception exception)
             {
-                viewService.ShowErrorMessage(exception.Message);
+                this.viewService.ShowMessage(exception);
             }
-            
         }
 
         private void EditExecuted(CakeViewModel cake)
@@ -110,18 +96,22 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
                 if (!this.viewService.ShowWindow(modifyViewModel))
                 {
-                    this.Cakes[this.Cakes.IndexOf(cake)] = unmodifiedCake;
-                    this.SelectedCake = unmodifiedCake;
+                    if(this.Cakes.Contains(cake))
+                    {
+                        this.Cakes[this.Cakes.IndexOf(cake)] = unmodifiedCake;
+                        this.SelectedCake = unmodifiedCake;
+                    }
                     return;
                 }
 
                 this.dbContext.SaveChanges();
 
                 this.SelectedCake = modifyViewModel.ModifiedCake;
+
             }
             catch (Exception exception)
             {
-                viewService.ShowErrorMessage(exception.Message);
+                this.viewService.ShowMessage(exception);
             }
         }
 
@@ -129,7 +119,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         private void DeleteExecuted(CakeViewModel cake)
         {
-            if (!this.viewService.ShowConfirmationMessage("Do you want to delete this cake permanently?"))
+            if (!this.viewService.ShowMessage("Do you want to delete this cake permanently?"))
             {
                 return;
             }
@@ -146,12 +136,12 @@ namespace StoreTestWPF.ViewModel.ViewModels
             try
             {
                 this.dbContext.Cakes.Load();
-                this.Cakes = new ObservableCollection<CakeViewModel>(dbContext.Cakes.Local.Select(cake => new CakeViewModel(cake)));
+                this.Cakes = new ObservableCollection<CakeViewModel>(this.dbContext.Cakes.Local.Select(cake => new CakeViewModel(cake)));
                 this.OnPropertyChanged(nameof(this.Cakes));
             }
             catch (Exception exception)
             {
-                viewService.ShowErrorMessage(exception.Message);
+                this.viewService.ShowMessage(exception);
             }
         }
 

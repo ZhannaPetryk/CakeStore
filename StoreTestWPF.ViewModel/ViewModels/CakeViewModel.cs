@@ -5,17 +5,13 @@ namespace StoreTestWPF.ViewModel.ViewModels
 {
     public class CakeViewModel : ViewModelBase
     {
-        private Cake cake;
-
-        public CakeViewModel()
-        {
-        }
+        private readonly Cake cake;
 
         public CakeViewModel(Cake cake)
         {
             if (cake == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(cake));
             }
             this.cake = cake;
         }
@@ -24,10 +20,10 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public string Title
         {
-            get { return this.cake.Title; }
+            get => this.cake.Title;
             set
             {
-                if(this.cake.Title != value)
+                if (this.cake.Title != value)
                 {
                     this.cake.Title = value;
                     this.OnPropertyChanged(nameof(this.Title));
@@ -37,7 +33,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public string Manufacture
         {
-            get { return this.cake.Manufacture; }
+            get => this.cake.Manufacture;
             set
             {
                 if (this.cake.Manufacture != value)
@@ -50,7 +46,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public string Description
         {
-            get { return this.cake.Description; }
+            get => this.cake.Description;
             set
             {
                 if (this.cake.Description != value)
@@ -63,7 +59,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public decimal Price
         {
-            get { return this.cake.Price; }
+            get => this.cake.Price;
             set
             {
                 if (this.cake.Price != value)
@@ -76,7 +72,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
 
         public string ImagePath
         {
-            get { return this.cake.ImagePath; }
+            get => this.cake.ImagePath;
             set
             {
                 if (this.cake.ImagePath != value)

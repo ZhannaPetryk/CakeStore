@@ -92,9 +92,8 @@
             </ListBox.ItemsPanel>
         </ListBox>
 
-        <userControls:CakeDetails
-            SelectedCake="{Binding Path = SelectedCake}"
-            IsCakeSelected="{Binding Path = IsCakeSelected}"
+        <userControls:CakeDetailsControl
+            DataContext="{Binding}"
             Grid.Column="1" 
             Grid.ColumnSpan="3" 
             Grid.Row="1"/>

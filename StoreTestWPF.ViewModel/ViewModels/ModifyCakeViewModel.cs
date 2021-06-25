@@ -12,7 +12,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
         private ICommand acceptCommand;
         private ICommand cancelCommand;
         private ICommand openFileCommand;
-        private IViewService viewService;
+        private readonly IViewService viewService;
 
         public string Title { get; set; }
 
@@ -20,14 +20,14 @@ namespace StoreTestWPF.ViewModel.ViewModels
         {
             if (viewService == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(viewService));
             }
             this.viewService = viewService;
         }
 
         public CakeViewModel ModifiedCake
         {
-            get { return this.modifiedCake; }
+            get => this.modifiedCake;
             set
             {
                 if (this.modifiedCake != value)
@@ -65,7 +65,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
             {
                 return;
             }
-            this.ModifiedCake.ImagePath = viewService.OpenFileDialog();
+            this.ModifiedCake.ImagePath = this.viewService.OpenFileDialog();
         }
     }
 }

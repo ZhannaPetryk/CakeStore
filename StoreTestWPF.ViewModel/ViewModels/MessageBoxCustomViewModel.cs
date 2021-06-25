@@ -10,7 +10,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
     {
         private ICommand acceptCommand;
         private ICommand cancelCommand;
-        private IViewService viewService;
+        private readonly IViewService viewService;
 
         public string Text { get; }
         public string Title { get; }
@@ -22,13 +22,13 @@ namespace StoreTestWPF.ViewModel.ViewModels
         {
             if (viewService == null)
             {
-                throw new NullReferenceException();
+                throw new ArgumentNullException(nameof(viewService));
             }
             this.viewService = viewService;
 
             this.Text = message;
             this.Title = type.ToString();
-            SetButtonsVisibility(buttons);
+            this.SetButtonsVisibility(buttons);
         }
 
         public ICommand AcceptCommand => this.acceptCommand ?? new RelayCommand(this.AcceptExecuted);
@@ -50,14 +50,14 @@ namespace StoreTestWPF.ViewModel.ViewModels
             switch (buttons)
             {
                 case MessageButtons.OkCancel:
-                    OkButtonVisible = true;
-                    CancelButtonVisible = true;
+                    this.OkButtonVisible = true;
+                    this.CancelButtonVisible = true;
                     break;
                 case MessageButtons.YesNo:
-                    YesNoButtonsVisible = true;
+                    this.YesNoButtonsVisible = true;
                     break;
                 case MessageButtons.Ok:
-                    OkButtonVisible = true;
+                    this.OkButtonVisible = true;
                     break;
             }
         }

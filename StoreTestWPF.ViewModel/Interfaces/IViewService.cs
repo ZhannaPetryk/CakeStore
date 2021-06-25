@@ -1,4 +1,5 @@
 ﻿using StoreTestWPF.ViewModel.ViewModels;
+using System;
 
 namespace StoreTestWPF.ViewModel.Interfaces
 {
@@ -6,8 +7,8 @@ namespace StoreTestWPF.ViewModel.Interfaces
     {
         string OpenFileDialog();
         bool ShowWindow(ViewModelBase viewModel);
-        bool ShowConfirmationMessage(string messageText);
-        bool ShowErrorMessage(string messageText);
+        bool ShowMessage(string message);
+        bool ShowMessage(Exception exception);
         void Accept();
         void Cancel();
     }
