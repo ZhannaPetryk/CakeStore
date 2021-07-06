@@ -14,6 +14,10 @@ namespace StoreTestWPF.ViewModel.ViewModels
     public sealed class StoreViewModel : ViewModelBase
     {
         private CakeViewModel selectedCake;
+        private Template selectedTemplate;
+        private ViewModelBase cakeDetailsView;
+        private ViewModelBase blackTemplateDetailsView;
+        private ViewModelBase greenTemplateDetailsView;
         private ICommand loadCommand;
         private ICommand addCommand;
         private ICommand editCommand;
@@ -22,6 +26,29 @@ namespace StoreTestWPF.ViewModel.ViewModels
         private readonly CakeStoreDbContext dbContext;
 
         public ObservableCollection<CakeViewModel> Cakes { get; private set; }
+        
+        public Template SelectedTemplate 
+        {
+            get => this.selectedTemplate;
+            set
+            {
+                if (this.selectedTemplate != value)
+                {
+                    this.selectedTemplate = value;
+                    this.OnPropertyChanged(nameof(this.SelectedTemplate));
+                    switch (value)
+                    {
+                        case Template.BlackTemplate:
+                            this.cakeDetailsView = blackTemplateDetailsView;
+                            break;
+                        case Template.GreenTemplate:
+                            this.cakeDetailsView = greenTemplateDetailsView;
+                            break;
+                    }
+                    this.OnPropertyChanged(nameof(this.CakeDetailsView));
+                }
+            }
+        }
 
         public CakeViewModel SelectedCake
         {
@@ -33,6 +60,19 @@ namespace StoreTestWPF.ViewModel.ViewModels
                     this.selectedCake = value;
                     this.OnPropertyChanged(nameof(this.SelectedCake));
                     this.OnPropertyChanged(nameof(this.IsCakeSelected));
+                }
+            }
+        }
+
+        public ViewModelBase CakeDetailsView
+        {
+            get => this.cakeDetailsView;
+            set
+            {
+                if (this.cakeDetailsView != value)
+                {
+                    this.cakeDetailsView = value;
+                    this.OnPropertyChanged(nameof(this.CakeDetailsView));
                 }
             }
         }
@@ -55,6 +95,10 @@ namespace StoreTestWPF.ViewModel.ViewModels
             }
             this.viewService = viewService;
             this.Cakes = new ObservableCollection<CakeViewModel>();
+            this.SelectedTemplate = Template.BlackTemplate;
+            this.blackTemplateDetailsView = new BlackTemplateViewModel(this);
+            this.greenTemplateDetailsView = new GreenTemplateViewModel(this);
+            this.cakeDetailsView = this.blackTemplateDetailsView;
             this.dbContext = CakeStoreDbContext.Create();
         }
 

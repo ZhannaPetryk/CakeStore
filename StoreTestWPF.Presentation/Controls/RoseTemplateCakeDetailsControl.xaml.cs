@@ -3,11 +3,11 @@
 namespace StoreTestWPF.Presentation.Controls
 {
     /// <summary>
-    /// Interaction logic for CakeDetailsControl.xaml
+    /// Interaction logic for RoseTemplateCakeDetailsControl.xaml
     /// </summary>
-    public partial class CakeDetailsControl : UserControl
+    public partial class RoseTemplateCakeDetailsControl : UserControl
     {
-        public CakeDetailsControl()
+        public RoseTemplateCakeDetailsControl()
         {
             InitializeComponent();
         }

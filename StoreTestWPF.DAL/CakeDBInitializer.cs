@@ -18,7 +18,7 @@ namespace StoreTestWPF.DAL
                 Manufacture = "Baguette",
                 Description = "Idealny jabłkowy paj, najsmaczniejszy, jaki jadłam :-). Z przepysznym kruchym ciastem (nowość na blogu!), które posiada strukturę i smak ciasta francuskiego, podobnie do niego się listkuje i smakuje (przypomina szybkie i ‚oszukane’ ciasto francuskie, jednak z mniejszą zawartością masła). Z dużą ilością jabłek doprawionych cynamonem i gałką muszkatołową, bez konieczności wcześniejszego podpiekania spodu. Kruche ciasto wymaga szczegółowego i dokładnego postępowania, ale jego smak po prostu zmiata z nóg ;-). Koniecznie wypróbujcie!",
                 Price = 55,
-                ImagePath = "/Images/Apple_pie.jpg"
+                ImagePath = "/Resource/Images/Apple_pie.jpg"
             });
             defaultCakes.Add(new Cake
             {
