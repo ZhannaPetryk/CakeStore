@@ -110,7 +110,7 @@
 
         <ContentControl 
             Visibility="{Binding Path = IsCakeSelected, Converter={StaticResource BoolToVis}}"
-            Content="{Binding CakeDetailsView}"
+            Content="{Binding CakeDetailsViewModel}"
             DataContext="{Binding}"
             Grid.Column="1" 
             Grid.ColumnSpan="3" 

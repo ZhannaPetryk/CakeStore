@@ -3,9 +3,10 @@
     public class GreenTemplateViewModel : ViewModelBase
     {
         public StoreViewModel StoreViewModel { get; set; }
+
         public GreenTemplateViewModel(StoreViewModel viewModel)
         {
-            StoreViewModel = viewModel;
+            this.StoreViewModel = viewModel;
         }
     }
 }
