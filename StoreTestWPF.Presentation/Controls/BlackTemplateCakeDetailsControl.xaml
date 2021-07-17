@@ -8,7 +8,7 @@
              d:DataContext="{d:DesignInstance Type=viewModels:BlackTemplateViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Visibility="{Binding Path = StoreViewModel.IsCakeSelected, Converter={StaticResource BoolToVis}}">
+    <Grid>
         <StackPanel Margin="5">
             <TextBlock Text="Manufacture:" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
