@@ -1,5 +1,9 @@
 ﻿using StoreTestWPF.DAL.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace StoreTestWPF.ViewModel.ViewModels
 {
@@ -14,6 +18,8 @@ namespace StoreTestWPF.ViewModel.ViewModels
                 throw new ArgumentNullException(nameof(cake));
             }
             this.cake = cake;
+            this.Images = new ObservableCollection<Image>(this.cake.Images);
+            this.Images.CollectionChanged += OnCollectionChanged;
         }
 
         public Cake Cake => this.cake;
@@ -70,17 +76,10 @@ namespace StoreTestWPF.ViewModel.ViewModels
             }
         }
 
-        public string ImagePath
+        public ObservableCollection<Image> Images { get; private set; }
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            get => this.cake.ImagePath;
-            set
-            {
-                if (this.cake.ImagePath != value)
-                {
-                    this.cake.ImagePath = value;
-                    this.OnPropertyChanged(nameof(this.ImagePath));
-                }
-            }
+            this.cake.Images = this.Images.ToList();
         }
     }
 }

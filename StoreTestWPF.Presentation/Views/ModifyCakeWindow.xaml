@@ -58,19 +58,66 @@
                        Width="Auto"
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
             <Button 
-                Content="Choose image"
-                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.OpenFileCommand}" 
+                Content="Add image"
+                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.AddImageCommand}" 
                 Margin="5" 
                 Width="150"
                 HorizontalAlignment="Left"
                 Background="Blue"
                 BorderBrush="Blue"/>
-            <Image 
-                Source="{Binding Path = ImagePath, UpdateSourceTrigger=PropertyChanged}"
-                MaxWidth="100" 
-                MaxHeight="100"
-                HorizontalAlignment="Left"
-                Margin="5"/>
+            <ListView ItemsSource="{Binding Path=Images}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, 
+                                                  Path=DataContext.DeleteImageCommand}" 
+                                CommandParameter="{Binding Path=.}" 
+                                Width="100" 
+                                Height="100" 
+                                Padding="0" 
+                                Background="Transparent" 
+                                BorderThickness="0">
+                            <Grid>
+                                <Image x:Name="imgCake"
+                                       Source="{Binding Path}"
+                                       Stretch="UniformToFill"/>
+                                <Grid>
+                                    <Rectangle Width="{Binding ElementName=imgCake, Path=Width}" 
+                                               Height="{Binding ElementName=imgCake, Path=Width}">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="Red"/>
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="{Binding Path}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Image Source="{StaticResource trashCanOutlineImage}"
+                                           Width="50" 
+                                           Height="50" 
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                    <Grid.Style>
+                                        <Style TargetType="{x:Type Grid}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="False">
+                                                    <Setter Property="Opacity" Value="0"></Setter>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Opacity" Value="0.5"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
         </StackPanel>
         <Button 
             Name="btnAccept" 

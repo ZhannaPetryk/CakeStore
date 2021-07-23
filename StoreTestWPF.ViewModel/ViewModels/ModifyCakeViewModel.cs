@@ -11,7 +11,8 @@ namespace StoreTestWPF.ViewModel.ViewModels
         private CakeViewModel modifiedCake;
         private ICommand acceptCommand;
         private ICommand cancelCommand;
-        private ICommand openFileCommand;
+        private ICommand addImageCommand;
+        private ICommand deleteImageCommand;
         private readonly IViewService viewService;
 
         public string Title { get; set; }
@@ -38,11 +39,13 @@ namespace StoreTestWPF.ViewModel.ViewModels
             }
         }
 
-        public ICommand OpenFileCommand => this.openFileCommand ?? new RelayCommand(this.OpenFileExecuted);
+        public ICommand AddImageCommand => this.addImageCommand ?? new RelayCommand(this.AddImageExecuted);
 
         public ICommand AcceptCommand => this.acceptCommand ?? new RelayCommand(this.AcceptExecuted, this.AcceptCanExecute);
 
         public ICommand CancelCommand => this.cancelCommand ?? new RelayCommand(this.CancelExecuted);
+
+        public ICommand DeleteImageCommand => this.deleteImageCommand ?? new RelayCommandWithParameter<Image>(this.DeleteImageExecuted);
 
         private void AcceptExecuted()
         {
@@ -52,20 +55,28 @@ namespace StoreTestWPF.ViewModel.ViewModels
         private bool AcceptCanExecute() => !(string.IsNullOrWhiteSpace(this.ModifiedCake?.Manufacture)
             || string.IsNullOrWhiteSpace(this.ModifiedCake?.Title)
             || this.ModifiedCake?.Price == decimal.Zero
-            || string.IsNullOrWhiteSpace(this.ModifiedCake?.ImagePath));
+            || this.ModifiedCake?.Images.Count == 0);
 
         private void CancelExecuted()
         {
             this.viewService.Cancel();
         }
 
-        private void OpenFileExecuted()
+        private void DeleteImageExecuted(Image imageToDelete)
+        {
+            imageToDelete.Cake = new Cake();
+            this.ModifiedCake.Images.Remove(imageToDelete);
+            this.ModifiedCake.OnPropertyChanged(nameof(this.ModifiedCake.Images));
+        }
+
+        private void AddImageExecuted()
         {
             if (this.ModifiedCake == null)
             {
                 return;
             }
-            this.ModifiedCake.ImagePath = this.viewService.OpenFileDialog();
+            this.ModifiedCake.Images.Add(new Image { Path = this.viewService.OpenFileDialog() });
+            this.ModifiedCake.OnPropertyChanged(nameof(this.ModifiedCake.Images));
         }
     }
 }

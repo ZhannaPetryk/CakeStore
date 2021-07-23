@@ -1,12 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:StoreTestWPF.Presentation"    
                     xmlns:userControls="clr-namespace:StoreTestWPF.Presentation.Controls"
                     xmlns:viewModels="clr-namespace:StoreTestWPF.ViewModel.ViewModels;assembly=StoreTestWPF.ViewModel"  
+                    xmlns:enums="clr-namespace:StoreTestWPF.ViewModel.Enums;assembly=StoreTestWPF.ViewModel"  
                     xmlns:utils="clr-namespace:StoreTestWPF.ViewModel.Utils;assembly=StoreTestWPF.ViewModel"  
-                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" >
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <utils:PriceConverter x:Key="PriceConverter" />
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <ObjectDataProvider x:Key="templateValues" 
+        MethodName="GetValues" 
+        ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="enums:Template"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
     <DataTemplate DataType="{x:Type viewModels:CakeViewModel}">
         <materialDesign:Card>
             <userControls:CakePreviewControl/>
@@ -18,4 +27,28 @@
     <DataTemplate DataType="{x:Type viewModels:ModifyCakeViewModel}">
         <local:ModifyCakeWindow/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:BlackTemplateViewModel}">
+        <materialDesign:Card>
+            <userControls:BlackTemplateCakeDetailsControl/>
+        </materialDesign:Card>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:GreenTemplateViewModel}">
+        <materialDesign:Card>
+            <userControls:GreenTemplateCakeDetailsControl/>
+        </materialDesign:Card>
+    </DataTemplate>
+    <ControlTemplate x:Key="roseCakeDetailsControlTemplate" 
+                     TargetType="ContentControl">
+        <materialDesign:Card>
+            <userControls:RoseTemplateCakeDetailsControl/>
+        </materialDesign:Card>
+    </ControlTemplate>
+    <DataTemplate DataType="{x:Type viewModels:CakeImagesViewModel}">
+        <userControls:CarouselControl/>
+    </DataTemplate>
+    <DrawingImage x:Key="trashCanOutlineImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="White" Geometry="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>
