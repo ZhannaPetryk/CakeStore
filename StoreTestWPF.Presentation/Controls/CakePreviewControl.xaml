@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel Margin="2">
-            <Image Source="{Binding Path = ImagePath}" 
+            <Image Source="{Binding Path = Images[0].Path}" 
                        Width="170" 
                        Height="200" 
                        Stretch="UniformToFill"/>

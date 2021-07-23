@@ -127,14 +127,13 @@
             </ContentControl.Style>
         </ContentControl>
 
-        <Image DataContext="{Binding Path = SelectedCake}"
-               Source="{Binding Path = ImagePath, UpdateSourceTrigger=PropertyChanged}" 
-               Grid.Column="4" 
+        <ContentControl 
+            Visibility="{Binding Path = IsCakeSelected, Converter={StaticResource BoolToVis}}"
+            Content="{Binding CakeImagesViewModel}"
+            DataContext="{Binding}"
+            Grid.Column="4" 
                Grid.ColumnSpan="3" 
-               Grid.Row="1"
-               HorizontalAlignment="Right" VerticalAlignment="Top" 
-               StretchDirection="Both" 
-               MinHeight="210"
-               Margin="5"/>
+               Grid.Row="1">
+        </ContentControl>
     </Grid>
 </Window>

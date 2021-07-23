@@ -84,7 +84,9 @@
                                  IsReadOnly="True" 
                                  Margin="5" 
                                  FontSize="18" 
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"/>
                     </materialDesign:TransitioningContent>
 
                 </Grid>

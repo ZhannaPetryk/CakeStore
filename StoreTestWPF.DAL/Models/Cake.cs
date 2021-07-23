@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace StoreTestWPF.DAL.Models
 {
@@ -17,8 +21,8 @@ namespace StoreTestWPF.DAL.Models
         public string Description { get; set; }
         
         public decimal Price { get; set; }
-        
-        public string ImagePath { get; set; }
+
+        public ICollection<Image> Images { get; set; }
 
         public object Clone()
         {

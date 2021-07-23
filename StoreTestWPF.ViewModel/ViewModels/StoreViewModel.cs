@@ -4,7 +4,9 @@ using StoreTestWPF.ViewModel.Enums;
 using StoreTestWPF.ViewModel.Interfaces;
 using StoreTestWPF.ViewModel.Utils;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Windows.Input;
@@ -18,6 +20,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
         private ViewModelBase cakeDetailsViewModel;
         private ViewModelBase blackTemplateDetailsViewModel;
         private ViewModelBase greenTemplateDetailsViewModel;
+        private ViewModelBase cakeImagesViewModel;
         private ICommand loadCommand;
         private ICommand addCommand;
         private ICommand editCommand;
@@ -77,6 +80,19 @@ namespace StoreTestWPF.ViewModel.ViewModels
             }
         }
 
+        public ViewModelBase CakeImagesViewModel
+        {
+            get => this.cakeImagesViewModel;
+            set
+            {
+                if (this.cakeImagesViewModel != value)
+                {
+                    this.cakeImagesViewModel = value;
+                    this.OnPropertyChanged(nameof(this.CakeImagesViewModel));
+                }
+            }
+        }
+
         public bool IsCakeSelected => this.SelectedCake != null;
 
         public ICommand LoadCommand => this.loadCommand ?? new RelayCommand(this.LoadExecuted, this.LoadCanExecute);
@@ -99,7 +115,17 @@ namespace StoreTestWPF.ViewModel.ViewModels
             this.blackTemplateDetailsViewModel = new BlackTemplateViewModel(this);
             this.greenTemplateDetailsViewModel = new GreenTemplateViewModel(this);
             this.cakeDetailsViewModel = this.blackTemplateDetailsViewModel;
+            this.cakeImagesViewModel = new CakeImagesViewModel(this);
             this.dbContext = CakeStoreDbContext.Create();
+            this.PropertyChanged += OnSelectedCakeChanged;
+        }
+
+        private void OnSelectedCakeChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.SelectedCake!=null && e.PropertyName == nameof(this.SelectedCake))
+            {
+                (this.CakeImagesViewModel as CakeImagesViewModel).RaiseCurrentElementChanged();
+            }
         }
 
         private void AddExecuted()
@@ -107,7 +133,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
             try
             {
                 var modifyViewModel = new ModifyCakeViewModel(this.viewService);
-                modifyViewModel.ModifiedCake = new CakeViewModel(new Cake());
+                modifyViewModel.ModifiedCake = new CakeViewModel(new Cake() { Images = new List<Image>()});
                 WindowTitles Title = WindowTitles.Add;
                 modifyViewModel.Title = Title.GetDisplayAttributesFrom(typeof(WindowTitles)).Name;
 
@@ -179,7 +205,7 @@ namespace StoreTestWPF.ViewModel.ViewModels
         {
             try
             {
-                this.dbContext.Cakes.Load();
+                this.dbContext.Cakes.Include(cake=>cake.Images).Load();
                 this.Cakes = new ObservableCollection<CakeViewModel>(this.dbContext.Cakes.Local.Select(cake => new CakeViewModel(cake)));
                 this.OnPropertyChanged(nameof(this.Cakes));
             }

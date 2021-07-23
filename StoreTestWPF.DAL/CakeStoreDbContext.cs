@@ -6,6 +6,7 @@ namespace StoreTestWPF.DAL
     public class CakeStoreDbContext : DbContext
     {
         public DbSet<Cake> Cakes { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public CakeStoreDbContext() : base("DefaultConnection") 
         {
